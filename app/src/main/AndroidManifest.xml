@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dk.tv2.intra"
+    android:versionName="1.2"
+    >
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    // FINE is GPS according to Urban Airship
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    // WRITE_EXTERNAL_STORAGE is required for WriteLogfile
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    // Required by Microsoft Azure
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+
+    <!-- It is not permitted with comments in the application section
+     so here is an explanation.
+
+    // For Microsoft Azure
+
+        android:allowBackup="true"
+        android:debuggable="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+    None of this has any effect.
+
+     -->
+    //  allowBackup is required according to Microsoft github.
+    // debuggable is required according to MS
+    //Android Studio recommends you avoid this statement:
+    //    android:debuggable="true"
+
+    <application
+        android:name=".MyApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        // exported="true" is required according to Microsoft github
+        // the label statement sometimes in android studio displays
+        // the value from strings.xml
+        // In the Microsoft github example strings.xml is in res/values/
+        // and says
+        // title_login_hello_app is
+        // "WebAPI Login".
+        // In other words, it seems to be just a message text string.
+
+        // You may get the error
+
+        // E/libEGL: validate_display:255 error 3008 (EGL_BAD_DISPLAY)
+
+        // EGL is a library for google chrome browser.
+
+        // You may get the error
+
+        // D/libGLESv2: DTS_GLAPI : DTS is not allowed for Package : dk.tv2.intra
+
+        // libGLES is a linker placeholder for the graphics processor
+        // library.
+
+        // Microsoft gives a variety of names for the authentication activity.
+        // Sometimes it is called
+
+        //    com.microsoft.adal.AuthenticationActivity
+
+        // and at other sources
+
+        //     com.microsoft.aad.adal.AuthenticationActivity"
+
+        // The first one cannot be resolved, so presumably it is outdated.
+        // Guides that refers to the name without aad are then probably
+        // also outdated and cannot be trusted.
+
+        <activity
+            android:name="com.microsoft.aad.adal.AuthenticationActivity"
+            android:label="@string/title_login_hello_app"
+            android:exported="true"
+            >
+        </activity>
+
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/webview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                />        </activity>
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="dk.tv2.intra.MainActivity" />
+        </activity>
+
+
+
+        <!-- Code from Urban Airship
+        OPTIONAL, if you want to receive push, push opened
+        and registration completed intents -->
+        <!-- Replace the receiver below with your package and class name -->
+
+        <!-- <receiver android:name=".IntentReceiver"
+            android:exported="false">
+        -->
+
+            <intent-filter>
+                <action android:name="com.urbanairship.push.CHANNEL_UPDATED" />
+                <action android:name="com.urbanairship.push.OPENED" />
+                <action android:name="com.urbanairship.push.RECEIVED" />
+                <action android:name="com.urbanairship.push.DISMISSED" />
+
+                <category android:name="dk.tv2.intra" />
+            </intent-filter>
+
+        <!-- </receiver>  -->
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="5c316e043a3abfc43f61def45ffb5933253de7a8" />
+    </application>
+
+</manifest>
