@@ -8,7 +8,11 @@ import android.widget.TextView;
 import com.microsoft.aad.adal.AuthenticationResult;
 
 /**
- * Created by henrik on 21/04/2016.
+
+ Created by henrik on 21/04/2016.
+ 
+ Comment here
+
  */
 public class Buffer {
 
